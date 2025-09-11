@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Calendario</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}">
+</head>
+<body>
+
+  <h1>Calendario</h1>
+
+   <form>
+  Fecha de inicio: <input type="date" name="fecha_inicio">
+  Días a mostrar: <input type="number" name="dias_a_mostrar" min="1">
+  <button type="submit">Generar Calendario</button>
+    </form> 
+
+  <h2>Enero</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Lunes</th>
+        <th>Martes</th>
+        <th>Miércoles</th>
+        <th>Jueves</th>
+        <th>Viernes</th>
+        <th>Sábado</th>
+        <th>Domingo</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="fuera-mes">29</td>
+        <td class="fuera-mes">30</td>
+        <td class="fuera-mes">31</td>
+        <td class="festivo">1</td>
+        <td class="laborable">2</td>
+        <td class="fin-semana">3</td>
+        <td class="fin-semana">4</td>
+      </tr>
+      <tr>
+        <td class="laborable">5</td>
+        <td class="laborable">6</td>
+        <td class="laborable">7</td>
+        <td class="laborable">8</td>
+        <td class="laborable">9</td>
+        <td class="fin-semana">10</td>
+        <td class="fin-semana">11</td>
+      </tr>
+            <tr>
+        <td class="laborable">12</td>
+        <td class="laborable">13</td>
+        <td class="laborable">14</td>
+        <td class="laborable">15</td>
+        <td class="laborable">16</td>
+        <td class="fin-semana">17</td>
+        <td class="fin-semana">18</td>
+      </tr>
+           <tr>
+        <td class="laborable">19</td>
+        <td class="laborable">20</td>
+        <td class="laborable">21</td>
+        <td class="laborable">22</td>
+        <td class="laborable">23</td>
+        <td class="fin-semana">24</td>
+        <td class="fin-semana">25</td>
+      </tr>
+           <tr>
+        <td class="laborable">26</td>
+        <td class="laborable">27</td>
+        <td class="laborable">28</td>
+        <td class="laborable">29</td>
+        <td class="laborable">30</td>
+        <td class="fin-semana">31</td>
+        <td class="fuera-mes">1</td>
+      </tr>
+     
+    </tbody>
+  </table>
+
+</body>
+</html>
