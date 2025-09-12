@@ -1,71 +1,134 @@
 body {
-  font-family: Arial, sans-serif;
-  background: #f4f4f9;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: #f0f2f5;
   margin: 0;
   padding: 20px;
+  color: #333;
 }
 
 h1 {
   text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: 30px;
+  font-size: 2rem;
+  color: #2c3e50;
 }
 
 h2 {
   text-align: center;
   margin-top: 40px;
+  margin-bottom: 15px;
+  font-size: 1.5rem;
   text-transform: capitalize;
+  color: #34495e;
+}
+
+form {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  margin-bottom: 40px;
+  background: #fff;
+  padding: 20px 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  font-weight: 600;
+  font-size: 0.9rem;
+  min-width: 200px;
+}
+
+input {
+  margin-top: 6px;
+  padding: 8px 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+}
+
+button {
+  padding: 10px 20px;
+  border-radius: 6px;
+  border: none;
+  background: #3498db;
+  color: white;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  align-self: flex-end;
+  transition: background 0.3s;
+}
+
+button:hover {
+  background: #2980b9;
 }
 
 table {
   border-collapse: collapse;
-  margin: 20px auto 40px auto;
+  margin: 0 auto 50px auto;
   width: 90%;
   max-width: 800px;
   table-layout: fixed;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  border-radius: 10px;
+  overflow: hidden;
 }
 
 th, td {
-  border: 1px solid #aaa;
-  width: 14.28%; /* 100% / 7 días */
+  border: 1px solid #ddd;
+  width: 14.28%; 
   height: 60px;
   text-align: center;
   vertical-align: middle;
-  transition: background 0.3s;
+  font-size: 1rem;
+  transition: transform 0.2s, background 0.3s;
 }
 
 th {
-  background-color: #ddd;
+  background-color: #ecf0f1;
+  color: #2c3e50;
+  font-weight: 600;
 }
 
 td.laborable {
-  background-color: #c7f0c7;
+  background-color: #dff9e1; 
 }
 
 td.fin-semana {
-  background-color: #fff7b2;
+  background-color: #fff3b0; 
 }
 
 td.festivo {
-  background-color: #ffcc99;
+  background-color: #ffb49a; 
 }
 
-td.fuera-mes {
-  background-color: #e0e0e0;
-  color: #888;
+td.fuera-mes,
+td.fuera-rango {
+  background-color: #e0e0e0; 
 }
 
 td:hover {
-  background-color: #b0d4ff;
+  transform: scale(1.05);
   cursor: pointer;
+  background-color: #a2d5f2;
 }
 
-form {
-  text-align: center;
-  margin-bottom: 30px;
-}
+@media (max-width: 600px) {
+  table, th, td {
+    font-size: 0.8rem;
+    height: 50px;
+  }
 
-input, button {
-  padding: 5px 10px;
-  margin: 5px;
-  font-size: 16px;
+  form {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  button {
+    width: 100%;
+  }
 }
