@@ -9,16 +9,16 @@
 
 <h1>Calendario</h1>
 
-<form method="POST">
+<form method="POST" class="calendario-form">
   <div class="form-group">
     <label for="fecha_inicio">📅 Fecha de inicio:</label>
-    <input type="date" name="fecha_inicio" required
+    <input type="date" name="fecha_inicio" id="fecha_inicio" required
            value="{{ fecha_inicio if fecha_inicio else '' }}">
   </div>
 
   <div class="form-group">
     <label for="dias_a_mostrar">📆 Días a mostrar:</label>
-    <input type="number" name="dias_a_mostrar" min="1" required
+    <input type="number" name="dias_a_mostrar" id="dias_a_mostrar" min="1" required
            value="{{ dias_a_mostrar if dias_a_mostrar else '' }}">
   </div>
 
@@ -26,26 +26,41 @@
 </form>
 
 {% if calendario %}
-  {% for mes in calendario %}
-    <h2>{{ mes.mes }}</h2>
-    <table>
-      <thead>
-        <tr>
-          <th>Lunes</th><th>Martes</th><th>Miércoles</th><th>Jueves</th>
-          <th>Viernes</th><th>Sábado</th><th>Domingo</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for semana in mes.semanas %}
-          <tr>
-            {% for dia in semana %}
-              <td class="{{ dia.clase }}">{{ dia.dia }}</td>
+  <div class="calendarios">
+    {% for mes in calendario %}
+      <div class="calendario-mes">
+        <h2>{{ mes.mes }}</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Lunes</th>
+              <th>Martes</th>
+              <th>Miércoles</th>
+              <th>Jueves</th>
+              <th>Viernes</th>
+              <th>Sábado</th>
+              <th>Domingo</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for semana in mes.semanas %}
+              <tr>
+                {% for dia in semana %}
+                  <td class="{{ dia.clase }}">
+                    {% if dia.dia %}
+                      {{ dia.dia }}
+                    {% else %}
+                      &nbsp;
+                    {% endif %}
+                  </td>
+                {% endfor %}
+              </tr>
             {% endfor %}
-          </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-  {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    {% endfor %}
+  </div>
 {% endif %}
 
 </body>

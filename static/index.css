@@ -22,7 +22,7 @@ h2 {
   color: #34495e;
 }
 
-form {
+form.calendario-form {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -31,7 +31,7 @@ form {
   background: #fff;
   padding: 20px 30px;
   border-radius: 12px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 .form-group {
@@ -60,11 +60,12 @@ button {
   font-weight: 600;
   cursor: pointer;
   align-self: flex-end;
-  transition: background 0.3s;
+  transition: background 0.3s, transform 0.2s;
 }
 
 button:hover {
   background: #2980b9;
+  transform: scale(1.05);
 }
 
 table {
@@ -73,7 +74,7 @@ table {
   width: 90%;
   max-width: 800px;
   table-layout: fixed;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
   border-radius: 10px;
   overflow: hidden;
 }
@@ -85,7 +86,7 @@ th, td {
   text-align: center;
   vertical-align: middle;
   font-size: 1rem;
-  transition: transform 0.2s, background 0.3s;
+  transition: background 0.3s, transform 0.2s;
 }
 
 th {
@@ -106,12 +107,16 @@ td.festivo {
   background-color: #ffb49a; 
 }
 
-td.fuera-mes,
-td.fuera-rango {
+td.fuera-rango,
+td.fuera-mes {
   background-color: #e0e0e0; 
+  color: #777;
+  cursor: default;
 }
 
-td:hover {
+td.laborable:hover,
+td.fin-semana:hover,
+td.festivo:hover {
   transform: scale(1.05);
   cursor: pointer;
   background-color: #a2d5f2;
@@ -123,7 +128,7 @@ td:hover {
     height: 50px;
   }
 
-  form {
+  form.calendario-form {
     flex-direction: column;
     align-items: center;
   }

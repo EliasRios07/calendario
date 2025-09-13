@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request
 from datetime import datetime, timedelta
 import locale
+import calendar
 
 app = Flask(__name__)
 
@@ -20,44 +21,61 @@ def calendario():
 
         if fecha_inicio_str and dias_a_mostrar:
             dias_a_mostrar = int(dias_a_mostrar)
-            fecha = datetime.strptime(fecha_inicio_str, "%Y-%m-%d")
-            fecha_final = fecha + timedelta(days=dias_a_mostrar - 1)
+            fecha_inicio = datetime.strptime(fecha_inicio_str, "%Y-%m-%d")
+            dias_restantes = dias_a_mostrar
+            fecha_actual = fecha_inicio
 
-            for _ in range(dias_a_mostrar):
-                mes_nombre = fecha.strftime("%B %Y")
-                if not calendario_data or calendario_data[-1]["mes"] != mes_nombre:
-                    calendario_data.append({"mes": mes_nombre, "semanas": [[]]})
+            while dias_restantes > 0:
+                mes = fecha_actual.month
+                anio = fecha_actual.year
+                mes_nombre = fecha_actual.strftime("%B %Y").capitalize()
 
-                dia_semana = fecha.weekday() 
-                semana_actual = calendario_data[-1]["semanas"][-1]
+                primer_dia_mes = datetime(anio, mes, 1)
+                ultimo_dia_mes = datetime(anio, mes, calendar.monthrange(anio, mes)[1])
 
-                if not semana_actual and dia_semana > 0:
-                    semana_actual.extend([{"dia": "", "clase": "fuera-mes"}] * dia_semana)
+                inicio_mes = max(fecha_actual, primer_dia_mes)
+                dias_en_mes = min((ultimo_dia_mes - inicio_mes).days + 1, dias_restantes)
 
-                dia_mes = fecha.strftime("%d")
-                mes = fecha.strftime("%m")
-                if fecha < datetime.strptime(fecha_inicio_str, "%Y-%m-%d") or fecha > fecha_final:
-                    clase = "fuera-mes"
-                elif f"{mes}-{dia_mes}" in FESTIVOS:
-                    clase = "festivo"
-                elif dia_semana >= 5:
-                    clase = "fin-semana"
-                else:
-                    clase = "laborable"
+                semanas = [[]]
 
-                semana_actual.append({"dia": fecha.day, "clase": clase})
+                for i in range(inicio_mes.weekday()):
+                    dia_prev = inicio_mes - timedelta(days=inicio_mes.weekday() - i)
+                    semanas[0].append({"dia": dia_prev.day, "clase": "fuera-rango"})
 
-                if dia_semana == 6:
-                    calendario_data[-1]["semanas"].append([])
+                fecha_iter = inicio_mes
+                for _ in range(dias_en_mes):
+                    if fecha_iter.strftime("%m-%d") in FESTIVOS:
+                        clase = "festivo"
+                    elif fecha_iter.weekday() >= 5:
+                        clase = "fin-semana"
+                    else:
+                        clase = "laborable"
 
-                fecha += timedelta(days=1)
+                    if fecha_iter < fecha_inicio:
+                        clase = "fuera-rango"
 
-    return render_template(
-        "index.html",
-        calendario=calendario_data,
-        fecha_inicio=fecha_inicio_str,
-        dias_a_mostrar=dias_a_mostrar
-    )
+                    semanas[-1].append({"dia": fecha_iter.day, "clase": clase})
+
+                    if fecha_iter.weekday() == 6:
+                        semanas.append([])
+
+                    fecha_iter += timedelta(days=1)
+
+                ultima_semana = semanas[-1]
+                if ultima_semana and len(ultima_semana) < 7:
+                    for i in range(7 - len(ultima_semana)):
+                        dia_siguiente = fecha_iter + timedelta(days=i)
+                        semanas[-1].append({"dia": dia_siguiente.day, "clase": "fuera-rango"})
+
+                if semanas[-1] == []:
+                    semanas.pop()
+
+                calendario_data.append({"mes": mes_nombre, "semanas": semanas})
+
+                fecha_actual = ultimo_dia_mes + timedelta(days=1)
+                dias_restantes -= dias_en_mes
+
+    return render_template("index.html",calendario=calendario_data,fecha_inicio=fecha_inicio_str,dias_a_mostrar=dias_a_mostrar)
 
 if __name__ == "__main__":
     app.run(debug=True)
