@@ -2,18 +2,23 @@ from flask import Flask, render_template, request
 from datetime import datetime, timedelta
 import locale
 import calendar
+import json
 
 app = Flask(__name__)
 
 locale.setlocale(locale.LC_TIME, "es_ES.UTF-8")
-
-FESTIVOS = ["01-01", "02-05", "03-18", "05-01", "09-16", "11-20", "12-25"]
 
 @app.route("/", methods=["GET", "POST"])
 def calendario():
     calendario_data = []
     fecha_inicio_str = ""
     dias_a_mostrar = ""
+        
+    # Cargar los días festivos desde el archivo JSON
+    with open('data/festivo.json', encoding='utf-8') as f:
+        d = json.load(f)   
+        FESTIVOS = d["FESTIVOS"]
+
 
     if request.method == "POST":
         fecha_inicio_str = request.form.get("fecha_inicio")
@@ -49,8 +54,7 @@ def calendario():
                     elif fecha_iter.weekday() >= 5:
                         clase = "fin-semana"
                     else:
-                        clase = "laborable"
-
+                        clase = "laborable"                        
                     if fecha_iter < fecha_inicio:
                         clase = "fuera-rango"
 
